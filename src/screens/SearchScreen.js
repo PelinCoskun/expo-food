@@ -8,7 +8,11 @@ const SearchScreen = () => {
     const [term, setTerm] = useState('');
     const [searchApi, results, errorMessage] = useResults();
 
-    console.log(results);
+    const filterResultByPrice=(price)=>{
+      return results.filter(results=>{
+        return results.price===price
+      })
+    }
 
     return (
         <View style={{ flex: 1 }}>
@@ -16,9 +20,9 @@ const SearchScreen = () => {
             {errorMessage ? <Text>{errorMessage}</Text> : null}
             <Text>We have found {results.length} results</Text>
             <ScrollView>
-                <ResultsList title="Cost Effective" results={results.filter(result => result.price === '$')} />
-                <ResultsList title="Bit Pricier" results={results.filter(result => result.price === '$$')} />
-                <ResultsList title="Big Spender" results={results.filter(result => result.price === '$$$')} />
+                <ResultsList results={filterResultByPrice('$')} title="Cost Effective" />
+                <ResultsList results={filterResultByPrice('$$')} title="Bit Pricier" />
+                <ResultsList results={filterResultByPrice('$$$')} title="Big Spender" />
             </ScrollView>
         </View>
     );
